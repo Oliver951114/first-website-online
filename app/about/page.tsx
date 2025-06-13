@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export default function About() {
   return (
     <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
@@ -29,9 +31,11 @@ export default function About() {
               </p>
             </div>
             <div className="relative">
-              <img 
+              <Image 
                 src="https://picsum.photos/600/400?random=11" 
                 alt="Company Mission" 
+                width={600}
+                height={400}
                 className="rounded-lg shadow-xl"
               />
             </div>
@@ -110,9 +114,11 @@ export default function About() {
                 className="text-center group"
               >
                 <div className="relative mb-4 overflow-hidden rounded-full">
-                  <img 
+                  <Image 
                     src={member.image} 
                     alt={member.name}
+                    width={400}
+                    height={400}
                     className="w-full aspect-square object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>

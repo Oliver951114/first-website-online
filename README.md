@@ -44,3 +44,6 @@ git commit -m "first commit"
 git branch -M main
 git remote add origin https://github.com/Oliver951114/first-website-online.git
 git push -u origin main
+
+#建置部署到伺服器的版本
+npm run build

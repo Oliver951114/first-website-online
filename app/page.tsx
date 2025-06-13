@@ -1,4 +1,4 @@
-
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -6,10 +6,12 @@ export default function Home() {
       {/* Header Section */}
       <header className="relative h-[60vh] flex items-center justify-center text-center px-4">
         <div className="absolute inset-0 z-0">
-          <img 
+          <Image 
             src="https://picsum.photos/1920/1080" 
             alt="Header Background" 
-            className="w-full h-full object-cover opacity-20"
+            fill
+            className="object-cover opacity-20"
+            priority
           />
         </div>
         <div className="relative z-10 max-w-4xl">
@@ -51,9 +53,11 @@ export default function Home() {
                 className="group bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_20px_25px_-5px_rgba(255,127,80,0.2)]"
               >
                 <div className="relative overflow-hidden">
-                  <img 
+                  <Image 
                     src={service.image} 
                     alt={service.title}
+                    width={400}
+                    height={300}
                     className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                   />
                 </div>
@@ -94,9 +98,11 @@ export default function Home() {
               }
             ].map((project, index) => (
               <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden">
-                <img 
+                <Image 
                   src={project.image} 
                   alt={project.title}
+                  width={400}
+                  height={300}
                   className="w-full h-48 object-cover"
                 />
                 <div className="p-6">

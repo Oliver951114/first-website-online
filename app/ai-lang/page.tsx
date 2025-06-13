@@ -6,11 +6,6 @@ import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
 import { db } from '@/services/firbase';
 import { collection, addDoc, getDocs, query, orderBy } from 'firebase/firestore';
 
-interface WordResponse {
-  單字清單: string[];
-  單字中文意義清單: string[];
-}
-
 interface WordCardData {
   id: number;
   topic: string;
@@ -33,7 +28,6 @@ const Header = () => {
 };
 
 const WordCard = ({ 
-  id,
   topic, 
   language, 
   words, 
@@ -41,21 +35,20 @@ const WordCard = ({
   examples,
   onGenerateExample 
 }: {
-  id: number;
   topic: string;
   language: string;
   words: string[];
   translations: string[];
   examples: { [key: string]: string };
-  onGenerateExample: (word: string, translation: string, language: string, index: number) => Promise<void>;
+  onGenerateExample: (word: string, translation: string, language: string) => Promise<void>;
 }) => {
   const [loadingExamples, setLoadingExamples] = useState<{ [key: string]: boolean }>({});
   const [playingAudio, setPlayingAudio] = useState<{ [key: string]: boolean }>({});
 
-  const handleGenerateExample = async (word: string, translation: string, index: number) => {
+  const handleGenerateExample = async (word: string, translation: string) => {
     setLoadingExamples(prev => ({ ...prev, [word]: true }));
     try {
-      await onGenerateExample(word, translation, language, index);
+      await onGenerateExample(word, translation, language);
     } finally {
       setLoadingExamples(prev => ({ ...prev, [word]: false }));
     }
@@ -103,7 +96,7 @@ const WordCard = ({
             <p className="text-lg font-semibold text-orange-600">{word}</p>
             <p className="text-gray-600 mb-3">{translations[index]}</p>
             <button
-              onClick={() => handleGenerateExample(word, translations[index], index)}
+              onClick={() => handleGenerateExample(word, translations[index])}
               disabled={loadingExamples[word]}
               className={`w-full py-2 px-4 rounded-md text-sm font-medium transition-colors
                 ${loadingExamples[word]
@@ -173,7 +166,10 @@ export default function AILangPage() {
       }
     };
 
-    fetchWordCards();
+    // Only fetch data on the client side
+    if (typeof window !== 'undefined') {
+      fetchWordCards();
+    }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -223,7 +219,7 @@ export default function AILangPage() {
     }
   };
 
-  const handleGenerateExample = async (cardId: number, word: string, translation: string, language: string, index: number) => {
+  const handleGenerateExample = async (cardId: number, word: string, translation: string, language: string) => {
     try {
       const response = await fetch('/api/sentence-ai', {
         method: 'POST',
@@ -323,14 +319,13 @@ export default function AILangPage() {
           {wordCards.map((card) => (
             <WordCard
               key={card.id}
-              id={card.id}
               topic={card.topic}
               language={card.language}
               words={card.words}
               translations={card.translations}
               examples={card.examples}
-              onGenerateExample={(word, translation, language, index) => 
-                handleGenerateExample(card.id, word, translation, language, index)
+              onGenerateExample={(word, translation, language) => 
+                handleGenerateExample(card.id, word, translation, language)
               }
             />
           ))}

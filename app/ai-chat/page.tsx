@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import styles from './page.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -106,7 +107,13 @@ export default function ChatPage() {
         {isLoading && (
           <div className={`${styles.messageWrapper} ${styles.aiMessage}`}>
             <div className={styles.avatar}>
-              <img src="/images/ai.jpg" alt="AI" />
+              <Image 
+                src="/images/ai.jpg" 
+                alt="AI" 
+                width={40}
+                height={40}
+                className={styles.avatarImage}
+              />
             </div>
             <div className={styles.messageGroup}>
               <div className={styles.messageContent}>
@@ -125,7 +132,13 @@ export default function ChatPage() {
           >
             {!message.isUser && (
               <div className={styles.avatar}>
-                <img src="/images/ai.jpg" alt="AI" />
+                <Image 
+                  src="/images/ai.jpg" 
+                  alt="AI" 
+                  width={40}
+                  height={40}
+                  className={styles.avatarImage}
+                />
               </div>
             )}
             <div className={styles.messageGroup}>
@@ -138,7 +151,13 @@ export default function ChatPage() {
             </div>
             {message.isUser && (
               <div className={styles.avatar}>
-                <img src="/images/user.jpg" alt="User" />
+                <Image 
+                  src="/images/user.jpg" 
+                  alt="User" 
+                  width={40}
+                  height={40}
+                  className={styles.avatarImage}
+                />
               </div>
             )}
           </div>
